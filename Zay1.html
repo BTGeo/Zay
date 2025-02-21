@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown till Tomi Gets to See Zaynah</title>
+    <style>
+        body {
+            background-color: #f9e04c; /* Mellow yellow */
+            color: #d81b60;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        h1 {
+            font-size: 2.5em;
+        }
+        #countdown {
+            font-size: 2em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #detailedCountdown {
+            font-size: 1.5em;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .heart {
+            color: red;
+            font-size: 3em;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .cloud {
+            position: absolute;
+            font-size: 6em; /* Bigger clouds */
+            animation: floatClouds 15s linear infinite;
+        }
+        .cloud:nth-child(1) { top: 5%; left: -10%; }
+        .cloud:nth-child(2) { top: 5%; left: 10%; }
+        .cloud:nth-child(3) { top: 5%; left: 30%; }
+        .cloud:nth-child(4) { top: 5%; left: 50%; }
+        .cloud:nth-child(5) { top: 5%; left: 70%; }
+        .cloud:nth-child(6) { top: 5%; left: 90%; }
+        .cloud:nth-child(7) { top: 10%; left: 20%; }
+        .cloud:nth-child(8) { top: 10%; left: 40%; }
+        .cloud:nth-child(9) { top: 10%; left: 60%; }
+        .cloud:nth-child(10) { top: 10%; left: 80%; }
+        .cloud:nth-child(11) { top: 15%; left: 15%; }
+        .cloud:nth-child(12) { top: 15%; left: 35%; }
+        .cloud:nth-child(13) { top: 15%; left: 55%; }
+        .cloud:nth-child(14) { top: 15%; left: 75%; }
+        .cloud:nth-child(15) { top: 20%; left: 25%; }
+        .cloud:nth-child(16) { top: 20%; left: 45%; }
+        .cloud:nth-child(17) { top: 20%; left: 65%; }
+        .cloud:nth-child(18) { top: 20%; left: 85%; }
+
+        @keyframes floatClouds {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100vw); }
+        }
+        .progress-bar-container {
+            width: 80%;
+            height: 20px;
+            background-color: #ddd;
+            margin: 20px auto;
+            border-radius: 10px;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #007bff;
+            border-radius: 10px;
+        }
+        .sidebar {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: #ffeb3b;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #d81b60;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countdown till Tomi Gets to See Zaynah <span class="heart">❤</span></h1>
+    <div id="countdown"></div>
+    <div id="detailedCountdown"></div>
+    <div class="progress-bar-container">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+    
+    <!-- Floating Clouds -->
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+    <div class="cloud">☁️</div>
+
+    <!-- Sidebar with Game Links -->
+    <div class="sidebar">
+        <p>Relive your boredom while you wait till she gets back:</p>
+        <a href="https://snake.io/" target="_blank">Play Snake.io</a>
+        <a href="https://gametable.org/games/tic-tac-toe/" target="_blank">Play Tic Tac Toe</a>
+    </div>
+
+    <!-- Greeting Message -->
+    <div id="greetingMessage"></div>
+
+    <!-- Confetti and Fireworks -->
+    <div id="fireworks" style="display: none;">
+        <h2>✨ Fireworks! 🎆</h2>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        function updateCountdown() {
+            const today = new Date();
+            const startDate = new Date(today.getFullYear(), 1, 5); // February 5
+            const targetDate = new Date(today.getFullYear(), 2, 15); // March 15
+            
+            if (today > targetDate) {
+                targetDate.setFullYear(today.getFullYear() + 1); // Move to next year if passed
+            }
+
+            const timeDiff = targetDate - today;
+            const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hoursLeft = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const secondsLeft = Math.floor((timeDiff % (1000 * 60)) / 1000);
+            
+            document.getElementById("countdown").innerText = `${daysLeft} days left!`;
+            document.getElementById("detailedCountdown").innerText = `(${hoursLeft}h ${minutesLeft}m ${secondsLeft}s left... not that I'm counting or anything)`;
+            
+            // Update progress bar based on start and end dates
+            const totalDuration = targetDate - startDate;
+            const elapsedDuration = today - startDate;
+            const progress = (elapsedDuration / totalDuration) * 100;
+            document.getElementById("progressBar").style.width = `${progress}%`;
+            
+            // Fireworks and confetti when time is up
+            if (timeDiff <= 0) {
+                document.getElementById("fireworks").style.display = 'block';
+                confetti();
+                confetti();
+            }
+
+            // Update greeting message
+            const hours = today.getHours();
+            let greeting = '';
+            if (hours >= 7 && hours < 12) {
+                greeting = "Good morning!";
+            } else if (hours >= 12 && hours < 16) {
+                greeting = "Good afternoon!";
+            } else if (hours >= 16 && hours < 23) {
+                greeting = "Good evening!";
+            } else {
+                greeting = "Good night!";
+            }
+            document.getElementById("greetingMessage").innerText = greeting;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>

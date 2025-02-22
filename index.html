@@ -88,9 +88,10 @@
             const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
             const hoursLeft = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const secondsLeft = Math.floor((timeDiff % (1000 * 60)) / 1000);
             
             document.getElementById("countdown").innerText = `${daysLeft} days left!`;
-            document.getElementById("detailedCountdown").innerText = `(${hoursLeft}h ${minutesLeft}m left...)`;
+            document.getElementById("detailedCountdown").innerText = `(${hoursLeft}h ${minutesLeft}m ${secondsLeft}s left... not that I'm counting or anything)`;
             
             const progress = (today - new Date(today.getFullYear(), 1, 5)) / (targetDate - new Date(today.getFullYear(), 1, 5)) * 100;
             document.getElementById("progressBar").style.width = `${progress}%`;
